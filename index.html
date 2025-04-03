@@ -49,7 +49,7 @@
             border-radius: 50%;
         }
         .gallery img {
-            width:350px;
+            width: 350px;
             height: 350px;
             display: none;
         }
@@ -59,14 +59,19 @@
         .buttons {
             margin-top: 10px;
         }
+        #map {
+            height: 400px;
+            width: 100%;
+        }
     </style>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 </head>
 <body>
     <div class="gif-container">
         <img src="construction.jpg" alt="حديد وأسمنت">
     </div>
     <header>الحميد لتجارة مواد البناء</header>
-    
+
     <section class="managers">
         <h2>GENARAL MANGERS (مدير)</h2>
         <div class="manager">
@@ -82,7 +87,7 @@
             <span>أديب - <a href="https://wa.me/555666777" target="_blank">واتساب</a></span>
         </div>
     </section>
-    
+
     <section class="gallery">
         <h2>معرض الصور</h2>
         <img src="image1.jpg" class="active" id="gallery-img">
@@ -91,17 +96,18 @@
             <button onclick="nextImage()">التالي</button>
         </div>
     </section>
-    
+
     <section class="locations">
         <h2>مراكز التوزيع</h2>
-        <div id="map" style="width: 100%; height: 300px;"></div>
+        <div id="map"></div>
     </section>
-    
+
     <section class="contact">
         <h2>تواصل معنا</h2>
         <p>للمزيد من المعلومات، يرجى الاتصال بنا.</p>
     </section>
 
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
         // معرض الصور
         const images = ["image1.jpg", "image2.jpeg", "image3.jpeg"];
@@ -115,28 +121,28 @@
             currentIndex = (currentIndex - 1 + images.length) % images.length;
             showImage(currentIndex);
         }
-       // خريطة جوجل مع مواقع فروع دير الزور
-        function initMap() {
-            var locations = [
-                { lat: 35.312231, lng: 40.157220, title: "فرع الجمارك - دير الزور" },
-                { lat: 35.326640, lng: 40.156656, title: "دوار الصناعة - دير الزور" },
-                { lat: 35.351156, lng: 40.163040, title: "دوار الحلبية - دير الزور" }
-            ];
-            
-            var map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 12,
-                center: locations[0]
-            });
-            
-            locations.forEach(function(location) {
-                new google.maps.Marker({
-                    position: location,
-                    map: map,
-                    title: location.title
-                });
-            });
-        }
+
+        // خريطة OpenStreetMap باستخدام Leaflet.js
+        var map = L.map('map').setView([35.312231, 40.157220], 12); // مركز الخريطة (موقع فرع الجمارك)
+
+        // استخدام OpenStreetMap كخريطة أساسية
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // إضافة الماركرز للمواقع
+        var locations = [
+            { lat: 35.312231, lng: 40.157220, title: "فرع الجمارك - دير الزور" },
+            { lat: 35.326640, lng: 40.156656, title: "دوار الصناعة - دير الزور" },
+            { lat: 35.351156, lng: 40.163040, title: "دوار الحلبية - دير الزور" }
+        ];
+
+        locations.forEach(function(location) {
+            L.marker([location.lat, location.lng])
+                .addTo(map)
+                .bindPopup(location.title)
+                .openPopup();
+        });
     </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"></script>
 </body>
 </html>
