@@ -1,4 +1,33 @@
-<!DOCTYPE html>
+[12:37 م، 2025/9/3] ALALOW TRADING: <!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>شركة العلو التجارية </title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            direction: rtl;
+            background-color: #f8f9fa;
+        }
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            font-size: 24px;
+        }
+        .gif-container {
+            margin: 20px auto;
+            text-align: center;
+        }
+        .gif-container img {
+            width: 100%;
+            max-width: 600px;
+            border-radius: 50px;
+        }
+        .managers, .gallery, .loc…
+[12:42 م، 2025/9/3] ALALOW TRADING: <!DOCTYPE html>
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
@@ -52,9 +81,14 @@
             width: 350px;
             height: 350px;
             display: none;
+            /* أضفنا هذه الأسطر للتأثيرات الانتقالية */
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            margin: 0 auto; /* لوسيطة الصورة */
         }
         .gallery img.active {
             display: block;
+            opacity: 1;
         }
         .buttons {
             margin-top: 10px;
@@ -133,11 +167,7 @@
     <section class="gallery">
         <h2>معرض الصور</h2>
         <img src="image1.jpeg" class="active" id="gallery-img">
-        <div class="buttons">
-            <button onclick="prevImage()">السابق</button>
-            <button onclick="nextImage()">التالي</button>
-        </div>
-    </section>
+        </section>
     <section class="products">
     <h2>المنتجات المتوفرة</h2>
 
@@ -152,9 +182,10 @@
         <div class="product-card">
             <img src="8مم.png" alt="حديد 8مم">
             <p>حديد 8 مم</p>
-            <span> 
-                
-                 (ايراني$700) </span>
+            <span> تركي نخب اول:
+                (675)
+                (دولية:700)
+                 (ايراني670) </span>
         </div>
         <div class="product-card">
             <img src="10مم.png" alt="حديد 10مم">
@@ -165,24 +196,19 @@
             <img src="12مم.png" alt="حديد 12مم">
             <p>حديد 12 مم</p>
             <span>
-             
-                ($انتاج وطني-667:steelco)
-                -----------
-    (الفوز:انتاج وطني -$668)
-                -----------
-              (المتحدة:$668)
-                -----------
-                (ايراني:671)
+               (تركي:700)
+    (دولية 685)
+                (ايراني:675)
         <span>
         </div>
         <div class="product-card">
             <img src="14مم.png" alt="حديد 14مم">
             <p>حديد 14 مم</p>
-            <span>السعر:  671 دولار</span>
+            <span>السعر:  680 دولار</span>
         </div>
     </div>
 
-    <h3>أنواع الإسمنت:غير متوفر حاليا</h3>
+    <h3>أنواع الإسمنت:</h3>
     <div class="product-grid">
         <div class="product-card">
             <img src="cement-syrian.jpg" alt="إسمنت سوري">
@@ -222,18 +248,33 @@
 
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
-        // معرض الصور
-        const images = ["image1.jpeg", "image2.jpeg", "image3.jpeg"];
+        // معرض الصور التلقائي
+        const images = ["image1.jpeg", "image2.jpeg", "image3.jpeg"]; // أضف جميع صورك هنا
         let currentIndex = 0;
-        
+        const galleryImg = document.getElementById("gallery-img");
+
         function showImage(index) {
-            document.getElementById("gallery-img").src = images[index];
+            // إزالة فئة 'active' من الصورة الحالية لتطبيق تأثير الاختفاء
+            galleryImg.classList.remove('active');
+
+            // تأخير تغيير src وإضافة 'active' للسماح بتأثير الانتقال
+            setTimeout(() => {
+                galleryImg.src = images[index];
+                galleryImg.classList.add('active');
+            }, 500); // 500ms يجب أن تتطابق مع مدة الانتقال في CSS
         }
         
-        function prevImage() {
-            currentIndex = (currentIndex - 1 + images.length) % images.length;
+        function nextImage() {
+            currentIndex = (currentIndex + 1) % images.length;
             showImage(currentIndex);
         }
+
+        // بدء عرض الشرائح التلقائي كل 3 ثوانٍ (3000 ملي ثانية)
+        setInterval(nextImage, 3000); // يمكنك تغيير هذا الرقم لتغيير سرعة التغيير
+
+        // عرض الصورة الأولى عند تحميل الصفحة
+        showImage(currentIndex);
+
 
         // خريطة OpenStreetMap باستخدام Leaflet.js
         var map = L.map('map').setView([35.312231, 40.157220], 12); // مركز الخريطة (موقع فرع الجمارك)
@@ -259,6 +300,3 @@
     </script>
 </body>
 </html>
-
-
-
